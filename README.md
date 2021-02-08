@@ -39,4 +39,5 @@ iudanet microservices repository
     cd docker-monolith/infra/ansible
     ansible-playbook playbooks/docker.yml
     ```
+
 * настроена интеграция с github actions, Slack, Travis.
