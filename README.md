@@ -12,3 +12,5 @@ eval $(docker-machine env --unset)
 
 ```
 Образ iudanet/otus-reddit:1.0
+
+fd8li1i9prqqqd9c6175

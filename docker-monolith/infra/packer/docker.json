@@ -13,12 +13,12 @@
         "service_account_key_file": "{{ user `service_account_key_file` }}",
         "folder_id": "{{ user `folder_id` }}",
         "source_image_family": "{{ user `source_image_family` }}",
+        "source_image_id": "{{ user `source_image_id` }}",
         "image_name": "docker-base-{{timestamp}}",
         "image_family": "docker-base",
         "ssh_username": "ubuntu",
         "platform_id": "standard-v1",
         "instance_mem_gb": 2 ,
-        "disk_type":           "network-hdd",
         "use_ipv4_nat": true ,
         "metadata": {
             "serial-port-enable": "1"
