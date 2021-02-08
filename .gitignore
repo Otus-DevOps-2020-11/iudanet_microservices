@@ -1,0 +1,22 @@
+venv
+variables.json
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
+trash
+run.sh
+.vscode
+*.retry
+jdauphant.nginx
+vault.key
+
+# Vagrant & molecule
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
+otus_role_db
