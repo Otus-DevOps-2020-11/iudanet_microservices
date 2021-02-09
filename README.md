@@ -6,13 +6,15 @@ iudanet microservices repository
 
 ### Описание
 
-* добавлен
+* добавлен docker-compose для удобного запуска проекта
+* добавлен расширенный docker-compose.override.yml для запуска в режиме разработки.
+* он монтирует папки с кодом сервисов и запускает puma в debug режиме.
+* Расширен файлы .env для переменных docker-compose
+* Чтобы задать имя проекта
 
-* Задать имя проекта
-
-```bash
-docker-compose --project-name MY_PROJECT_NAME
-```
+    ```bash
+    docker-compose --project-name MY_PROJECT_NAME up -d
+    ```
 
 * Запустить с параметрами разработки
 
