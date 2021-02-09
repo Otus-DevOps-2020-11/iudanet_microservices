@@ -2,6 +2,23 @@
 
 iudanet microservices repository
 
+## HW-14
+
+### Описание
+
+* добавлен
+
+* Задать имя проекта
+
+```bash
+docker-compose --project-name MY_PROJECT_NAME
+```
+
+* Запустить с параметрами разработки
+
+    ```bash
+    docker-compose -f docker-compose.override.yml -f docker-compose.yml up  -d
+    ```
 ## HW-13
 
 ### Описание

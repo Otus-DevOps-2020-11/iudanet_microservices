@@ -23,3 +23,5 @@ otus_role_db
 
 
 !docker-1.log
+.gitignore
+.env

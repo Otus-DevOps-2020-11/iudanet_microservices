@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  post_db:
+    ports:
+      - ${MONGO_DEV_PORT}:27017/tcp
+  ui:
+    volumes:
+      - ./ui:/app
+    command: ["puma", "--debug", "-w2"]
+
+  post:
+    volumes:
+      - ./post-py:/app
+  comment:
+    volumes:
+      - ./comment:/app
+    command: ["puma", "--debug", "-w2"]
