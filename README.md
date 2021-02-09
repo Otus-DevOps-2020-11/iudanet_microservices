@@ -2,6 +2,28 @@
 
 iudanet microservices repository
 
+## HW-13
+
+### Описание
+
+* Собраны 3 контейнера:
+  * iudanet/ui:1.0
+  * iudanet/comment:1.0
+  * iudanet/post:1.0
+* Сборка осуществлена с помощью alpine
+
+    ```txt
+    ➜  iudanet_microservices git:(docker-3) docker images | grep iudanet
+    iudanet/ui                1.0             cf9816138451   10 hours ago   146MB
+    iudanet/comment           1.0             df4bd7ae238c   10 hours ago   144MB
+    iudanet/post              1.0             9ce0e4c25009   11 hours ago   106MB
+    ```
+
+* Для удобства сборки, проверки и разворачивания локально написан Makefile. В папке src:
+  * `make lint`
+  * `make build`
+  * `make run`
+
 ## HW-12
 
 ### Описание
