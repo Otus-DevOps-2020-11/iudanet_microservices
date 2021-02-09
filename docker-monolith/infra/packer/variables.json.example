@@ -1,0 +1,7 @@
+{
+    "service_account_key_file": "packer/key.json.example",
+    "folder_id": "111111111111111111111",
+    "source_image_family": "ubuntu-1604-lts",
+    "source_image_id": "fd8fjtn3mj2kfe7h6f0r"
+
+  }

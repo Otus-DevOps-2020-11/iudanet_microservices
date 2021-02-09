@@ -1,0 +1,9 @@
+---
+# tasks file for monolith
+- name: start reddit docker
+  community.general.docker_container:
+    name: reddit
+    image: iudanet/otus-reddit:1.0
+    state: started
+    ports:
+     - "9292:9292"
