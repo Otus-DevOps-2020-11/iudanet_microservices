@@ -2,6 +2,26 @@
 
 iudanet microservices repository
 
+## HW-14
+
+### Описание
+
+* добавлен docker-compose для удобного запуска проекта
+* добавлен расширенный docker-compose.override.yml для запуска в режиме разработки.
+* он монтирует папки с кодом сервисов и запускает puma в debug режиме.
+* Расширен файлы .env для переменных docker-compose
+* Чтобы задать имя проекта
+
+    ```bash
+    docker-compose --project-name MY_PROJECT_NAME up -d
+    ```
+
+* Запустить с параметрами разработки
+
+    ```bash
+    docker-compose -f docker-compose.override.yml -f docker-compose.yml up  -d
+    ```
+
 ## HW-13
 
 ### Описание
