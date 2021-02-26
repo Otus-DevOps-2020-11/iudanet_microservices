@@ -8,7 +8,7 @@ build:: build-prometheus build-ui build-comment build-post build-blackbox
 
 build-prometheus::
 	cd monitoring/prometheus && \
-	USER_NAME=$(USER_NAME) bash docker_build.sh
+	docker build -t $(USER_NAME)/prometheus$(DOCKER_TAG) .
 build-ui::
 	cd src/ui && \
 	USER_NAME=$(USER_NAME) bash docker_build.sh
@@ -20,7 +20,7 @@ build-post::
 	USER_NAME=$(USER_NAME) bash docker_build.sh
 build-blackbox::
 	cd monitoring/blackbox_exporter && \
-	USER_NAME=$(USER_NAME) bash docker_build.sh
+	docker build -t $(USER_NAME)/blackbox_exporter$(DOCKER_TAG) .
 
 #Docker Push
 push:: push-prometheus push-ui push-comment push-post push-blackbox
@@ -33,7 +33,6 @@ push-comment:: build-comment docker-login
 	docker push $(USER_NAME)/comment:$(DOCKER_TAG)
 push-post:: build-post docker-login
 	docker push $(USER_NAME)/post:$(DOCKER_TAG)
-
 push-blackbox:: build-blackbox docker-login
 	docker push $(USER_NAME)/blackbox_exporter:$(DOCKER_TAG)
 
