@@ -1,0 +1,80 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:${MONGO_TAG}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+  ui:
+    image: ${USERNAME}/ui:${UI_TAG}
+    ports:
+      - ${UI_PORT}:9292/tcp
+    networks:
+      - front_net
+      - back_net
+  post:
+    image: ${USERNAME}/post:${POST_TAG}
+    networks:
+      - back_net
+  comment:
+    image: ${USERNAME}/comment:${COMMENT_TAG}
+    networks:
+      - back_net
+  prometheus:
+    image: ${USERNAME}/prometheus:${PROM_TAG}
+    networks:
+      - back_net
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+    # Передаем доп параметры в команднойстроке
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    # Задаем время хранения метрикв 1 день
+      - '--storage.tsdb.retention=1d'
+  node-exporter:
+    image: prom/node-exporter:v1.1.1
+    networks:
+      - back_net
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+  mongodb_exporter:
+    image: iudanet/percona_mongodb_exporter:master
+    command: --mongodb.uri=mongodb://post_db:27017
+    networks:
+      - back_net
+
+  blackbox_exporter:
+    image: ${USERNAME}/blackbox_exporter
+    # ports:
+    #   - 9115:9115
+    networks:
+      - back_net
+
+
+volumes:
+  post_db:
+  prometheus_data:
+
+
+networks:
+  back_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.2.0/24"
+  front_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.1.0/24"
