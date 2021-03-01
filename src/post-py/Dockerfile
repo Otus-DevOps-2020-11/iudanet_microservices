@@ -9,6 +9,7 @@ RUN apk --no-cache --update add  \
     apk del build-base
 
 ENV POST_DATABASE_HOST=post_db \
-    POST_DATABASE=posts
+    POST_DATABASE=posts \
+    PYTHONUNBUFFERED=1
 
 ENTRYPOINT ["python3", "post_app.py"]

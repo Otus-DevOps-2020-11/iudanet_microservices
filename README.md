@@ -2,6 +2,38 @@
 
 iudanet microservices repository
 
+## HW-16
+
+### Описание
+
+* Произведена переконпановка репозитория, перенесены файлы docker-compose и папка `docker-monolith` в папку `docker`
+* добавлен мониторинг prometheus в docker-compose для сервисов:
+  * ui
+  * comment
+  * post
+* добавлен node_exporer
+* добавлен mongodb_exporter
+  * скачан репозиторий [https://github.com/percona/mongodb_exporter]()
+  * собран из мастер ветки и запушен образ в Docker Hub `iudanet/percona_mongodb_exporter:master`
+* добавлен blackbox_exporter c tcp и http проверками
+  * в Docker Hub запушен образ `iudanet/blackbox_exporter:latest`
+* Проведены практические тесты по нахождению неисправности с помощью prometheus
+* В проекте собираются образы:
+  * iudanet/percona_mongodb_exporter:master
+  * iudanet/blackbox_exporter:latest
+  * iudanet/post:latest
+  * iudanet/comment:latest
+  * iudanet/ui:latest
+  * iudanet/prometheus:latest
+
+* Написан `Makefile` для автоматизации рутинных процессов:
+  * `make build` собирает все образы
+    * можно собрать конкретный образ
+  * `make push` пушит образы на докерхаб с логином под пользователем iudanet
+    * можно запушить конкретный образ
+  * `make up` запускает `make build` и `docker-compose up -d`
+  * `make clean` запускает `docker-compose down -v`
+
 ## HW-14
 
 ### Описание

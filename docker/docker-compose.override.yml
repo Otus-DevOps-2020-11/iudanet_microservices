@@ -5,13 +5,13 @@ services:
       - ${MONGO_DEV_PORT}:27017/tcp
   ui:
     volumes:
-      - ./ui:/app
+      - ../src/ui:/app
     command: ["puma", "--debug", "-w2"]
 
   post:
     volumes:
-      - ./post-py:/app
+      - ../src/post-py:/app
   comment:
     volumes:
-      - ./comment:/app
+      - ../src/comment:/app
     command: ["puma", "--debug", "-w2"]
