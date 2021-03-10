@@ -32,7 +32,7 @@ build-grafana::
 	docker build -t $(USER_NAME)/grafana:$(DOCKER_TAG) .
 
 #Docker Push
-push:: push-prometheus push-ui push-comment push-post push-blackbox push-alertmanager push-telegraf
+push:: push-prometheus push-ui push-comment push-post push-blackbox push-alertmanager push-telegraf push-grafana
 
 push-prometheus:: build-prometheus docker-login
 	docker push $(USER_NAME)/prometheus:$(DOCKER_TAG)
