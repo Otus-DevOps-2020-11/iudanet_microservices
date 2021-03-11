@@ -2,6 +2,30 @@
 
 iudanet microservices repository
 
+## HW-17
+
+### Описание
+
+* Стек мониторинга перенесен в отдельный `docker-compose-monitoring.yml`
+* добавлен cAdvisor
+* Добавлена Grafana
+* Настроен провижинг дашбордов и источников данных через код
+* Добавлен Alertmanager с алертами в slak   и почту
+* Добавлен telegraf для сборки метрик docker
+* Добавлена сборка метрик docker daemon
+* Доработан Makefile
+* Настроен сбор метрик с яндекс облака
+* В проекте собираются образы:
+  * iudanet/percona_mongodb_exporter:master
+  * iudanet/blackbox_exporter:latest
+  * iudanet/post:latest
+  * iudanet/comment:latest
+  * iudanet/ui:latest
+  * iudanet/prometheus:latest
+  * iudanet/alertmanager:latest
+  * iudanet/telegraf:latest
+  * iudanet/grafana:latest
+
 ## HW-16
 
 ### Описание

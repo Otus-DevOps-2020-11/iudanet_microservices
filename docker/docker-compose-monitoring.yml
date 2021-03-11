@@ -1,0 +1,91 @@
+version: '3.3'
+services:
+  prometheus:
+    image: ${USERNAME}/prometheus:${PROM_TAG}
+    networks:
+      - back_net
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+    # Передаем доп параметры в команднойстроке
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    # Задаем время хранения метрикв 1 день
+      - '--storage.tsdb.retention=1d'
+  node-exporter:
+    image: prom/node-exporter:v1.1.1
+    networks:
+      - back_net
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+  mongodb_exporter:
+    image: iudanet/percona_mongodb_exporter:master
+    command: --mongodb.uri=mongodb://post_db:27017
+    networks:
+      - back_net
+
+  blackbox_exporter:
+    image: ${USERNAME}/blackbox_exporter
+    # ports:
+    #   - 9115:9115
+    networks:
+      - back_net
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.37.5
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+    ports:
+      - '8080:8080'
+    networks:
+      - back_net
+
+  grafana:
+    image: ${USERNAME}/grafana:latest
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    networks:
+      - back_net
+
+  alertmanager:
+    image: ${USERNAME}/alertmanager:latest
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+    ports:
+      - 9093:9093
+    networks:
+      - back_net
+  telegraf:
+    image: ${USERNAME}/telegraf:latest
+    ports:
+      - 9273:9273
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - back_net
+volumes:
+  grafana_data:
+  prometheus_data:
+
+networks:
+  back_net:
+    external:
+      name: docker_back_net
