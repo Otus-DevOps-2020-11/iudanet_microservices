@@ -2,6 +2,52 @@
 
 iudanet microservices repository
 
+## HW-18
+
+### Описание
+
+* Настроен fluentd и Elasticsearch
+* Настроены парсеры json и grok для fluentd
+* Настроен zipkin для просомтра трасировок
+* Настроен docker-compose с сервисами логирования
+* Поиск неисправности в коде репозитория `https://github.com/Artemmkin/bugged-code`
+  * поиск по zipkin показал что тормозит функция `db_find_single_post`
+  * лишняя строчка с  `time.sleep(3)`
+
+  ```python
+  @zipkin_span(service_name='post', span_name='db_find_single_post')
+  def find_post(id):
+      start_time = time.time()
+      try:
+          post = app.db.find_one({'_id': ObjectId(id)})
+      except Exception as e:
+          log_event('error', 'post_find',
+                    "Failed to find the post. Reason: {}".format(str(e)),
+                    request.values)
+          abort(500)
+      else:
+          stop_time = time.time()  # + 0.3
+          resp_time = stop_time - start_time
+          app.post_read_db_seconds.observe(resp_time)
+          time.sleep(3)
+          log_event('info', 'post_find',
+                    'Successfully found the post information',
+                    {'post_id': id})
+          return dumps(post)
+  ```
+
+* В проекте собираются образы:
+  * iudanet/percona_mongodb_exporter:master
+  * iudanet/blackbox_exporter:logging
+  * iudanet/post:logging
+  * iudanet/comment:logging
+  * iudanet/ui:logging
+  * iudanet/prometheus:logging
+  * iudanet/alertmanager:logging
+  * iudanet/telegraf:logging
+  * iudanet/grafana:logging
+  * iudanet/fluentd:logging
+
 ## HW-17
 
 ### Описание
