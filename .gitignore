@@ -21,6 +21,7 @@ vault.key
 .pytest_cache
 otus_role_db
 
+src_old
 
 !docker-1.log
 .env

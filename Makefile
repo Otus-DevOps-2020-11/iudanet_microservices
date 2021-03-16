@@ -1,10 +1,10 @@
 #Envs
 USER_NAME=iudanet
-DOCKER_TAG=latest
+DOCKER_TAG=logging
 
 
 # Docker builds
-build:: build-prometheus build-ui build-comment build-post build-blackbox build-alertmanager build-telegraf build-grafana
+build:: build-prometheus build-ui build-comment build-post build-blackbox build-alertmanager build-telegraf build-grafana build-fluentd
 
 build-prometheus::
 	cd monitoring/prometheus && \
@@ -30,9 +30,12 @@ build-telegraf::
 build-grafana::
 	cd monitoring/grafana && \
 	docker build -t $(USER_NAME)/grafana:$(DOCKER_TAG) .
+build-fluentd::
+	cd logging/fluentd && \
+	docker build -t $(USER_NAME)/fluentd:$(DOCKER_TAG) .
 
 #Docker Push
-push:: push-prometheus push-ui push-comment push-post push-blackbox push-alertmanager push-telegraf push-grafana
+push:: push-prometheus push-ui push-comment push-post push-blackbox push-alertmanager push-telegraf push-grafana push-fluentd
 
 push-prometheus:: build-prometheus docker-login
 	docker push $(USER_NAME)/prometheus:$(DOCKER_TAG)
@@ -50,6 +53,8 @@ push-telegraf:: build-telegraf docker-login
 	docker push $(USER_NAME)/telegraf:$(DOCKER_TAG)
 push-grafana:: build-grafana docker-login
 	docker push $(USER_NAME)/grafana:$(DOCKER_TAG)
+push-fluentd:: build-fluentd docker-login
+	docker push $(USER_NAME)/fluentd:$(DOCKER_TAG)
 
 # Docker Login
 docker-login::
@@ -60,15 +65,20 @@ up:: build docker-compose-up
 docker-compose-up::
 	cd docker && \
 	docker-compose up -d && \
-	docker-compose -f docker-compose-monitoring.yml up -d
+	docker-compose -f docker-compose-monitoring.yml up -d && \
+	docker-compose -f docker-compose-logging.yml up -d
 
 docker-compose-ps::
 	cd docker && \
-	docker-compose ps
+	docker-compose ps && \
+	docker-compose -f docker-compose-monitoring.yml ps && \
+	docker-compose -f docker-compose-logging.yml ps
+
 
 clean:: docker-compose-down
 
 docker-compose-down::
 	cd docker && \
+	docker-compose -f docker-compose-logging.yml down -v && \
 	docker-compose -f docker-compose-monitoring.yml down -v && \
 	docker-compose down -v
