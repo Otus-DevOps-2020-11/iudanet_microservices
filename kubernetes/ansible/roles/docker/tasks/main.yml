@@ -29,8 +29,8 @@
 - name: Update apt and install docker-ce
   apt:
     name:
-      - docker-ce
-      - docker-ce-cli
+      - "docker-ce={{ docker_version }}"
+      - "docker-ce-cli={{ docker_version }}"
       - containerd.io
     update_cache: yes
   loop:

@@ -9,3 +9,18 @@
     - name: k8s_prepare
       tags:
         - prepare
+- name: install k8s_master
+  hosts: k8s_master
+  become: true
+  roles:
+    - name: k8s_master
+      tags:
+        - master
+
+- name: install k8s_worker
+  hosts: k8s_worker
+  become: true
+  roles:
+    - name: k8s_worker
+      tags:
+        - worker

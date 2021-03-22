@@ -43,7 +43,7 @@
       - kubectl
 
 
-- name: Add the 802.1q module
+- name: Add the br_netfilter module
   community.general.modprobe:
     name: br_netfilter
     state: present
