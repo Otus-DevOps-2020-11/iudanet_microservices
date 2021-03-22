@@ -9,7 +9,7 @@ iudanet microservices repository
 * Написан  terraform  код разворачивающий 2 виртуальные машины в облаке
 * Написаны роли ansible для подготовки виртуальных машин к работе в кластере k8s
 * Написаны Deployments для разворачивания стека reddit
-* Вручную развернут кластер k8s  с помощью kubeadm
+* Созданы роли для бустрапа k8s кластера
 
   ```txt
   ubuntu@k8s-master:~$ sudo kubeadm init --apiserver-cert-extra-sans=10.130.0.33,178.154.203.120 --apiserver-advertise-address=0.0.0.0 --control-plane-endpoint=10.130.0.33 --pod-network-cidr=10.244.0.0/16
@@ -95,8 +95,6 @@ iudanet microservices repository
   kubeadm join 10.130.0.33:6443 --token bycz1t.lj5c5iz9okyslfm4 \
       --discovery-token-ca-cert-hash sha256:46999d13ce2a96c662309b12f31f42fb8ca44c71dfcff20a90f6a58a49411472
   ```
-
-* Вручную добавлен воркер в клстер k8s
 
   ```txt
   ubuntu@k8s-worker:~$ sudo kubeadm join 10.130.0.33:6443 --token bycz1t.lj5c5iz9okyslfm4 --discovery-token-ca-cert-hash sha256:46999d13ce2a96c662309b12f31f42fb8ca44c71dfcff20a90f6a58a49411472
