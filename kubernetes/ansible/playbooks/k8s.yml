@@ -1,0 +1,11 @@
+---
+- name: install docker
+  hosts: k8s_worker,k8s_master
+  become: true
+  roles:
+    - name: docker
+      tags:
+        - docker
+    - name: k8s_prepare
+      tags:
+        - prepare
