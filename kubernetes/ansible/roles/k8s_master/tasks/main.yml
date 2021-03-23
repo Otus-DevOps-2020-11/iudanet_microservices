@@ -1,0 +1,44 @@
+---
+# tasks file for roles/k8s_master
+# - name: msg
+#   debug:
+#     msg: "{{ ansible_facts }}"
+- name: Task name
+  stat:
+    path: /etc/kubernetes/manifests/kube-apiserver.yaml
+  register: register_name
+- name: initialize the cluster
+  shell: >
+    kubeadm init
+    --apiserver-cert-extra-sans={{ansible_host}},{{ ansible_facts.default_ipv4.address }}
+    --apiserver-advertise-address=0.0.0.0
+    --control-plane-endpoint={{ ansible_facts.default_ipv4.address }}
+    --pod-network-cidr={{ k8s_cidr }} >> kubeadm_init.txt
+  args:
+    chdir: "{{ ansible_facts.user_dir }}"
+    creates: kubeadm_init.txt
+- name: create directory k8s config
+  file:
+    path: "{{ ansible_facts.user_dir }}/.kube"
+    state: directory
+    mode: 0700
+
+- name: copy config kube
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: "{{ ansible_facts.user_dir }}/.kube/config"
+    remote_src: yes
+
+- name: generate calico config
+  ansible.builtin.template:
+    src: calico.yaml.j2
+    dest: "{{ ansible_facts.user_dir }}/calico.yaml"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: install Pod network
+  shell: kubectl apply -f {{ ansible_facts.user_dir }}/calico.yaml >> calico_setup.txt
+  args:
+    chdir: "{{ ansible_facts.user_dir }}"
+    creates: calico_setup.txt
