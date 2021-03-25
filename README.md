@@ -2,6 +2,68 @@
 
 iudanet microservices repository
 
+## HW-20
+
+### Описание
+
+* добавлены labels и env в Deployments для приложения reddit
+* созданы services для взаимодействия компонентов приложения reddit
+* обновлен terraform для создания managed k8s yandex
+
+```txt
+➜  terraform git:(kubernetes-2) ✗ yc managed-kubernetes cluster list
++----------------------+------+---------------------+---------+---------+------------------------+-------------------+
+|          ID          | NAME |     CREATED AT      | HEALTH  | STATUS  |   EXTERNAL ENDPOINT    | INTERNAL ENDPOINT |
++----------------------+------+---------------------+---------+---------+------------------------+-------------------+
+| catnbp6sj9dc96o54vhc | name | 2021-03-24 09:19:37 | HEALTHY | RUNNING | https://178.154.200.83 | https://10.0.0.17 |
++----------------------+------+---------------------+---------+---------+------------------------+-------------------+
+
+➜  terraform git:(kubernetes-2) ✗ yc managed-kubernetes cluster get-credentials name --external --force
+➜  terraform git:(kubernetes-2) ✗ k config get-contexts
+CURRENT   NAME       CLUSTER                               AUTHINFO                              NAMESPACE
+          minikube   minikube                              minikube                              default
+*         yc-name    yc-managed-k8s-catnbp6sj9dc96o54vhc   yc-managed-k8s-catnbp6sj9dc96o54vhc
+➜  terraform git:(kubernetes-2) ✗ k get nodes
+NAME                        STATUS   ROLES    AGE     VERSION
+cl18a7pqi9tmbk8bp229-elov   Ready    <none>   8m46s   v1.19.7
+cl18a7pqi9tmbk8bp229-uqez   Ready    <none>   8m50s   v1.19.7
+➜  terraform git:(kubernetes-2) ✗ cd ../reddit
+➜  reddit git:(kubernetes-2) ✗ k apply -f dev-namespace.yml
+namespace/dev created
+➜  reddit git:(kubernetes-2) ✗ k apply -n dev -f .
+deployment.apps/comment created
+service/comment-db created
+service/comment created
+namespace/dev unchanged
+deployment.apps/mongo created
+service/mongodb created
+deployment.apps/post created
+service/post-db created
+service/post created
+deployment.apps/ui created
+service/ui created
+```
+
+```
+reddit git:(kubernetes-2) ✗ kubectl get nodes -o wide
+NAME                        STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP       OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+cl18a7pqi9tmbk8bp229-elov   Ready    <none>   11m   v1.19.7   10.0.0.29     84.201.128.197    Ubuntu 20.04.2 LTS   5.4.0-65-generic   docker://20.10.3
+cl18a7pqi9tmbk8bp229-uqez   Ready    <none>   11m   v1.19.7   10.0.0.27     178.154.203.172   Ubuntu 20.04.2 LTS   5.4.0-65-generic   docker://20.10.3
+
+➜  reddit git:(kubernetes-2) ✗ kubectl get svc -A
+NAMESPACE     NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+default       kubernetes       ClusterIP   10.96.128.1     <none>        443/TCP          14m
+dev           comment          ClusterIP   10.96.175.160   <none>        9292/TCP         2m27s
+dev           comment-db       ClusterIP   10.96.186.200   <none>        27017/TCP        2m27s
+dev           mongodb          ClusterIP   10.96.152.49    <none>        27017/TCP        2m26s
+dev           post             ClusterIP   10.96.213.106   <none>        5000/TCP         2m26s
+dev           post-db          ClusterIP   10.96.247.208   <none>        27017/TCP        2m26s
+dev           ui               NodePort    10.96.250.238   <none>        9292:31192/TCP   2m26s
+kube-system   calico-typha     ClusterIP   10.96.159.127   <none>        5473/TCP         14m
+kube-system   kube-dns         ClusterIP   10.96.128.2     <none>        53/UDP,53/TCP    14m
+kube-system   metrics-server   ClusterIP   10.96.220.189   <none>        443/TCP          14m
+```
+* ссылка на приложение [http://84.201.128.197:31192/]()
 ## HW-19
 
 ### Описание
