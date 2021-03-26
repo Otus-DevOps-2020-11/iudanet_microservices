@@ -2,6 +2,21 @@
 
 iudanet microservices repository
 
+## HW-21
+
+### Описание
+
+* Добавлен NetworkPolisy для сервиса mongo
+* Вручную создан диск в YC
+* Добавлен PV и PVC для сервиса mongo
+* Добавлен ingress для UI
+* Добавлен tls для ingress
+* повторная выдача PV после статуса Realized
+
+```txt
+kubectl patch pv mongo-pv -p '{"spec":{"claimRef": null}}'
+```
+
 ## HW-20
 
 ### Описание
@@ -28,6 +43,7 @@ NAME                        STATUS   ROLES    AGE     VERSION
 cl18a7pqi9tmbk8bp229-elov   Ready    <none>   8m46s   v1.19.7
 cl18a7pqi9tmbk8bp229-uqez   Ready    <none>   8m50s   v1.19.7
 ➜  terraform git:(kubernetes-2) ✗ cd ../reddit
+
 ➜  reddit git:(kubernetes-2) ✗ k apply -f dev-namespace.yml
 namespace/dev created
 ➜  reddit git:(kubernetes-2) ✗ k apply -n dev -f .

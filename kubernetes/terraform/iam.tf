@@ -25,3 +25,12 @@ resource "yandex_resourcemanager_folder_iam_binding" "iam_k8s_node_k8s_editor" {
     "serviceAccount:${yandex_iam_service_account.iam_k8s_service.id}"
   ]
 }
+
+resource "yandex_resourcemanager_folder_iam_binding" "iam_k8s_node_k8s_editor2" {
+  role      = "editor"
+  folder_id = var.folder_id
+  members = [
+    "serviceAccount:${yandex_iam_service_account.iam_k8s_node.id}",
+    "serviceAccount:${yandex_iam_service_account.iam_k8s_service.id}"
+  ]
+}
