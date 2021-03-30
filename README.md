@@ -41,6 +41,18 @@ helm install gitlab gitlab/gitlab \
   * Деплой в окружение Production
   * Деплой настроен без интеграции gitlab с k8s
   * Конфиг кластера передается в переменной окружения
+  * после сборки в мастер ветке любого приложения запускается деплой в тест и прод
+
+  ```yaml
+  deploy:
+    stage: deploy
+    trigger:
+      project: iudanet/reddit-deploy
+      branch: master
+    only:
+      - master
+
+  ```
 
 ## HW-21
 
