@@ -7,6 +7,9 @@ image:
   repository: iudanet/ui
   tag: latest
 
+ingress:
+  class: nginx
+  # domain: gitlab-k8s.iudanet.com
 
 postHost:
 postPort:

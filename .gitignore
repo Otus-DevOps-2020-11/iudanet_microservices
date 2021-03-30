@@ -26,3 +26,4 @@ src_old
 !docker-1.log
 .env
 build_info.txt
+Gitlab_ci

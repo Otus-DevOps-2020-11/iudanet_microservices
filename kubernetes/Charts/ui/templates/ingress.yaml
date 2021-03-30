@@ -51,21 +51,43 @@
 #         backend:
 #           serviceName: {{ .Release.Name }}-{{ .Chart.Name }}
 #           servicePort: 9292
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: {{ template "ui.fullname" . }}
+#   # annotations:
+#   #   kubernetes.io/ingress.class: "gce"
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - path: "/"
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: {{ template "ui.fullname" . }}
+#             port:
+#               number: {{ .Values.service.externalPort }}
+
+
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ template "comment.fullname" . }}
-  # annotations:
-  #   kubernetes.io/ingress.class: "gce"
+  name: {{ template "ui.fullname" . }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
 spec:
   rules:
-  - http:
+  - host: {{ .Values.ingress.host | default .Release.Name }}
+    http:
       paths:
       - path: "/"
         pathType: Prefix
         backend:
           service:
-            name: {{ template "comment.fullname" . }}
+            name: {{ template "ui.fullname" . }}
             port:
               number: {{ .Values.service.externalPort }}
