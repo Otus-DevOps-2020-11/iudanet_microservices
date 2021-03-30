@@ -7,6 +7,7 @@ stages:
   - review
   - release
   - cleanup
+  - deploy
 
 build:
   stage: build
@@ -80,6 +81,16 @@ stop_review:
     # kubernetes: active
   except:
     - master
+
+
+deploy:
+  stage: deploy
+  trigger:
+    project: iudanet/reddit-deploy
+    branch: master
+  only:
+    - master
+
 
 .auto_devops: &auto_devops |
   [[ "$TRACE" ]] && set -x

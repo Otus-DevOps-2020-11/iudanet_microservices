@@ -7,6 +7,16 @@ stages:
   - review
   - release
   - cleanup
+  - deploy
+
+
+deploy:
+  stage: deploy
+  trigger:
+    project: iudanet/reddit-deploy
+    branch: master
+  only:
+    - master
 
 build:
   stage: build

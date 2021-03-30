@@ -132,7 +132,7 @@ production:
   environment:
     name: production
     url: http://production.$CI_GITLAB_DOMAIN
-  when: manual
+  # when: manual
   only:
     refs:
       - master
