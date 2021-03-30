@@ -2,6 +2,46 @@
 
 iudanet microservices repository
 
+## HW-22
+
+остановился на 68 странице
+### Описание
+
+* Развернут k8s через terraform
+* Настроен Helm-2 + Tiller
+
+```bash
+kubectl apply -f ../reddit/tiller.yml
+helm2 init --service-account tiller
+```
+
+* Настроен Helm-3
+* Добавлен Ingress
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
+```
+
+* установлен  gitlab
+
+```bash
+helm install gitlab gitlab/gitlab \
+  --set global.hosts.domain=gitlab-k8s.iudanet.com  \
+  --set certmanager-issuer.email=chudo88@gmail.com
+```
+
+* Создын Helm chart для :
+  * comment
+  * ui
+  * post
+  * Chart с зависимостями объединяющий все приложение
+* Настроен gitlab-ci для сборки и выкатки каждого приложения:
+  * деплой в ревью окружение создаваемое по фичаветке
+  * Деплой в окруение Stage
+  * Деплой в окружение Production
+  * Деплой настроен без интеграции gitlab с k8s
+  * Конфиг кластера передается в переменной окружения
+
 ## HW-21
 
 ### Описание

@@ -27,3 +27,10 @@ src_old
 .env
 build_info.txt
 Gitlab_ci
+kubernetes/Charts/gitlab/admin.yaml
+kubernetes/Charts/gitlab/ca.pem
+kubernetes/Charts/gitlab/ca.pem.base64
+kubernetes/Charts/gitlab/gitlab-admin-service-account.yaml
+kubernetes/Charts/gitlab/test.kubeconfig
+kubernetes/Charts/gitlab/test.kubeconfig.base64
+kubernetes/Charts/gitlab/values.yaml
