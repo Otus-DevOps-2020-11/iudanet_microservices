@@ -13,7 +13,11 @@ resource "yandex_kms_symmetric_key" "kms_key_resource_name" {
 resource "yandex_kubernetes_cluster" "zonal_cluster_resource_name" {
   name        = "name"
   description = "description"
-
+  depends_on = [
+    yandex_resourcemanager_folder_iam_binding.iam_k8s_node_k8s_editor2,
+    yandex_resourcemanager_folder_iam_binding.iam_k8s_node_k8s_editor,
+    yandex_resourcemanager_folder_iam_binding.iam_k8s_node_vpc_admin,
+  ]
   network_id = yandex_vpc_network.network_resource_name.id
 
   master {
