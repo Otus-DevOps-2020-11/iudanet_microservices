@@ -1,0 +1,7 @@
+ingress:
+    enabled: true
+    hosts:
+        - kubana.k8s.iudanet.com
+env:
+    ELASTICSEARCH_URL: http://elasticsearch-logging.efk:9200
+    ELASTICSEARCH_HOSTS: http://elasticsearch-logging.efk:9200

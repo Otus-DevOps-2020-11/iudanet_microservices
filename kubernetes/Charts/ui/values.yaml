@@ -9,7 +9,7 @@ image:
 
 ingress:
   class: nginx
-  # domain: gitlab-k8s.iudanet.com
+  domain: k8s.iudanet.com
 
 postHost:
 postPort:

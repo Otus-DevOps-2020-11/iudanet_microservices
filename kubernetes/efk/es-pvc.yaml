@@ -1,0 +1,12 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: elasticsearch-logging-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: yc-network-hdd
+  resources:
+    requests:
+      storage: 2Gi
