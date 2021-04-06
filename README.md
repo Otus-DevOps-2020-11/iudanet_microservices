@@ -2,9 +2,40 @@
 
 iudanet microservices repository
 
+## HW-23
+
+### Описание
+
+* развернут Prometheus
+* Развернут EFK
+* улучшены дашборды для Grafana
+* развернута Grafana
+
+```
+helm repo add stable https://charts.helm.sh/stable
+
+cd kubernetes/Charts
+
+cd reddit
+helm dep update
+cd ..
+helm upgrade prom prometheus  --install  -n mng --create-namespace
+helm upgrade production --namespace production  ./reddit --install --create-namespace
+helm upgrade staging --namespace staging  ./reddit --install --create-namespace
+helm upgrade reddit-test ./reddit --install -n test --create-namespace
+
+
+helm upgrade --install grafana stable/grafana -f grafana/values.yaml -n mng --create-namespace
+
+kubectl create ns efk
+kubectl -n efk apply -f efk
+
+helm upgrade -f kibana/values.yaml --install kibana stable/kibana -n efk
+
+```
+
 ## HW-22
 
-остановился на 68 странице
 ### Описание
 
 * Развернут k8s через terraform

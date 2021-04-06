@@ -1,0 +1,8 @@
+service:
+    type: NodePort
+
+adminPassword: admin
+ingress:
+    enabled: true
+    hosts:
+        - grafana.k8s.iudanet.com
